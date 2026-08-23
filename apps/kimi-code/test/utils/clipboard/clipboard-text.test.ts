@@ -81,14 +81,9 @@ describe('copyTextToClipboard', () => {
 });
 
 describe('buildClipboardOSC52', () => {
-  it('emits a bare OSC 52 sequence outside tmux', () => {
-    expect(buildClipboardOSC52('hi', false)).toBe(`\u001B]52;c;${base64('hi')}\u0007`);
-  });
-
-  it('wraps the sequence in a tmux passthrough with doubled ESC bytes', () => {
-    expect(buildClipboardOSC52('hi', true)).toBe(
-      `\u001BPtmux;\u001B\u001B]52;c;${base64('hi')}\u0007\u001B\\`,
-    );
+  it('emits the same OSC 52 sequence inside and outside tmux', () => {
+    const expected = `\u001B]52;c;${base64('hi')}\u0007`;
+    expect(buildClipboardOSC52('hi')).toBe(expected);
   });
 });
 
